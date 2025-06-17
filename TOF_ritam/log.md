@@ -131,7 +131,9 @@
 - with pusher voltage -70
 - The histogram is given as
 
-<img src="figures/TOF37.png" width=500>
+<img src="figures/TOF371.png" width=500>
+
+- Note: for the 3D visualization of the initial position of the particles open the file TOF_ritam/figures/TOF371_3D_pos.html with "Open with live server". 
 
 ---
 

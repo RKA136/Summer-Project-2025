@@ -14,7 +14,7 @@ Paper describes improved mass resolution achieved by a new ion gun in a nonmagne
     - pulshed on at the end of ion formation
         - If the accelerating pulse lasts until all ions have left the source - all ions receive the same `energy`.
         - If, with a single constant accelerating field, the pulse cuts of before any of the ions leave the source, all ions essentially receive the same `momentum`.
-    - In either case the velocity of the ions in the free flight path is a function of $frac{q}{m}$.
+    - In either case the velocity of the ions in the free flight path is a function of $\frac{q}{m}$.
     - So when ions reach the collector they are separated into bunches corresponding to $\frac{q}{m}$.
     - If charge is same 
         -  Lightest group reaches the detector first and is followed by group of successively heavier mass.
