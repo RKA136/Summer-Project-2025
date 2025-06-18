@@ -82,7 +82,7 @@ def initial_position_plot_3d(filename):
     # Show interactive plot
     fig.show()
 
-def histogram_parameters_plot(filename, bins1):
+def histogram_parameters_plot(filename, bins1, x_min, x_max):
     with open(f"TOF_ritam/data/resolution/{filename}.txt","r") as file:
         text = file.read()
     ion_array = parse_ion_data(text)
@@ -91,22 +91,22 @@ def histogram_parameters_plot(filename, bins1):
     mu, sigma = norm.fit(ion_array[:,5])
     
     print(f"Mean (μ): {mu:.4f}, Standard Deviation (σ): {sigma:.4f} for {filename}")
-    print(f"Resolution: M₀ = {mu/sigma:.4f} for {filename}")
+    print(f"Resolution: M₀ = {mu/(2*sigma):.4f} for {filename}")
     
     #Plot the Histogram
-    plt.figure(figsize=(25,10))
+    plt.figure(figsize=(12,5))
     counts, bins, _ =plt.hist(ion_array[:,5],bins=bins1, color='steelblue', edgecolor='black')
+    print(np.sum(counts))
     
     #Plot the gaussian fit
     x= np.linspace(bins[0],bins[-1], 1000)
     pdf = norm.pdf(x, mu, sigma)
     plt.plot(x, pdf * max(counts) / max(pdf), 'r--', linewidth=2, label=f'Gaussian Fit\nμ={mu:.2f}, σ={sigma:.2f}')
-    plt.xlim(1.75, 2.75)
-    plt.xlabel("Time of Flight (μs)")
-    plt.ylabel("Counts")
-    plt.title(f"Time of Flight Histogram with Gaussian Fit for {filename}")
+    plt.xlim(x_min, x_max)
+    plt.xlabel("Time of Flight (μs)",fontsize=14)
+    plt.ylabel("Counts", fontsize=14)
+    plt.title(f"Time of Flight Histogram with Gaussian Fit for {filename}", fontsize=16)
     plt.legend()
     plt.grid()
-    plt.tight_layout()
     plt.savefig(f"TOF_ritam/figures/resolution/{filename}_hist_fit.png", dpi=300)
     plt.close()
