@@ -366,7 +366,22 @@ Resolution: M₀ = 277.3566 for TOF_370
 
 - And for the Gaussian fit the fit parametes and Resolution is 
 ```text
+Mean (μ): 2.5339, Standard Deviation (σ): 0.0051 for TOF_380
+Resolution: M₀ = 249.4695 for TOF_380
+```
 
+---
+
+### TOF390.txt
+- pusher voltage -90V
+- The histogram is given as 
+
+<img src="figures/resolution/TOF_390_hist_fit.png" width=800>
+
+- And for the Gaussian fit the fit parametes and Resolution is 
+```text
+Mean (μ): 2.4301, Standard Deviation (σ): 0.0053 for TOF_390
+Resolution: M₀ = 230.1245 for TOF_390
 ```
 
 ---

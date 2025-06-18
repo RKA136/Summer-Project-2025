@@ -1,3 +1,3 @@
-from Time_Of_Flight_data_recording import plot_histogram, initial_position_plot_3d, histogram_parameters_plot
+from Time_Of_Flight_data_recording import histogram_parameters_plot
 
-histogram_parameters_plot("TOF_370",100, 2.6, 2.7)
+histogram_parameters_plot("TOF_390",100, 2.4, 2.5)
