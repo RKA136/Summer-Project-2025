@@ -113,6 +113,24 @@ def histogram_parameters_plot(filename, bins1, x_min, x_max):
 def plot_resolution(sl_no, x_min, x_max, bins, exp_no):
     M_data = []
     
+    first_text = f"""
+## Part {exp_no}
+---
+- For all the simulation in this part I use the structure 
+    - Number of particles: 10,000  
+    - Charge: -1  
+    - Mass: _ (single value)  
+    - Source position: spherical distribution — center (23, 80, 80), radius = 1  
+    - Azimuth: 0°, Elevation: 0°  
+    - Kinetic Energy (KE): 3 eV  
+    - Lens 1,2,3,4 and flight tube voltages: 0 V  
+    - Magnetic Field: 50 G
+    """
+
+    with open(f"TOF_ritam/Resolution_logbook_{exp_no}.md", "a", encoding="utf-8") as logbook:
+        logbook.write(first_text)
+
+    
     for i in sl_no:
         data = f"TOF_{exp_no * 10000 + i}"
         mu, sigma, M = histogram_parameters_plot(data, bins, x_min, x_max)
@@ -161,5 +179,18 @@ def plot_resolution(sl_no, x_min, x_max, bins, exp_no):
     <img src="figures/resolution/pusher_voltage_vs_resolution_{exp_no}.png" width=800>
     """)
 
+    with open(f"TOF_ritam/Resolution_logbook_{exp_no}.md", "a", encoding='utf-8') as logbook:
+        logbook.write(final_text)
+
+    voltages = np.array(voltages)
+    resolutions = np.array(resolutions)
+    max_index = np.argmax(resolutions)
+
+    best_voltage = voltages[max_index]
+    best_resolution = resolutions[max_index]
+
+    final_text = textwrap.dedent(f"""
+    The maximum resolution {best_resolution:.4f} occurs at pusher voltage {best_voltage}V.
+    """)
     with open(f"TOF_ritam/Resolution_logbook_{exp_no}.md", "a", encoding='utf-8') as logbook:
         logbook.write(final_text)
