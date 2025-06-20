@@ -11,6 +11,10 @@ Mass (amu)  $(M₀)_{max}$    Pusher Voltage(V)
 ```         
 ---
 
+Which looks like 
+
+<img src="figures/M0max_vs_pusher_voltage.png" width=800>
+
 ## Part 1
 ---
 - For all the simulation in this part I use the structure 
