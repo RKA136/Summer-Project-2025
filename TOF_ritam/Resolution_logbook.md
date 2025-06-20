@@ -707,5 +707,19 @@ Resolution: M₀ = 454.1571 for TOF_440
 ---
 
 The resolution vs pusher voltage plot for this setup is
- 
+
 <img src="figures/resolution/TOF_ritam_m5.png" width=800>
+
+
+## Part 5
+---
+- For all the simulation in this part I use the structure 
+    - Number of particles - 10,000
+    - charge (-1)
+    - mass -  single value - 15
+    - source position - spherical distribution - center(23,80,80) radius(1)
+    - Azimuth (0) , Elevation (0)
+    - KE (3)
+    - Lens 1,2,3,4 and flight tube voltage (00 V)
+    - Magnetic Field - 50 G
+

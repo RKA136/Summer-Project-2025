@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 from scipy.stats import norm
+import textwrap
 
 def parse_ion_data(text):
     # Pattern to match each ion entry
@@ -90,9 +91,6 @@ def histogram_parameters_plot(filename, bins1, x_min, x_max):
     # Fit Gaussian: get mean and std deviation
     mu, sigma = norm.fit(ion_array[:,5])
     
-    print(f"Mean (μ): {mu:.4f}, Standard Deviation (σ): {sigma:.4f} for {filename}")
-    print(f"Resolution: M₀ = {mu/(2*sigma):.4f} for {filename}")
-    
     #Plot the Histogram
     plt.figure(figsize=(12,5))
     counts, bins, _ =plt.hist(ion_array[:,5],bins=bins1, color='steelblue', edgecolor='black')
@@ -110,3 +108,58 @@ def histogram_parameters_plot(filename, bins1, x_min, x_max):
     plt.grid()
     plt.savefig(f"TOF_ritam/figures/resolution/{filename}_hist_fit.png", dpi=300)
     plt.close()
+    return mu, sigma, mu/(2*sigma)
+
+def plot_resolution(sl_no, x_min, x_max, bins, exp_no):
+    M_data = []
+    
+    for i in sl_no:
+        data = f"TOF_{exp_no * 100 + i}"
+        mu, sigma, M = histogram_parameters_plot(data, bins, x_min, x_max)
+        M_data.append([i, M])
+        
+        voltage = int(data[-2:])  # Last two digits as voltage (e.g., "40" from TOF_440)
+
+        text_to_append = textwrap.dedent(f"""
+        ### {data}.txt
+        - pusher voltage: -{voltage}V
+        - The histogram is given as:
+
+        <img src="figures/resolution/{data}_hist_fit.png" width=800>
+
+        - Gaussian fit parameters and resolution:
+
+        ```text
+        Mean (μ): {mu:.4f}, Standard Deviation (σ): {sigma:.4f} for {data}
+        Resolution: M₀ = {M:.4f} for {data}
+        ```
+        ---
+        """)
+
+        with open("TOF_ritam/Resolution_logbook_4.md", "a", encoding='utf-8') as logbook:
+            logbook.write(text_to_append)
+
+    # Plot: Resolution vs Pusher Voltage
+    voltages = [-i[0] for i in M_data]
+    resolutions = [i[1] for i in M_data]
+
+    plt.figure(figsize=(8, 5))
+    plt.plot(voltages, resolutions, marker='o', linestyle='-', color='b')
+    plt.xlabel("Pusher Voltage (V)", fontsize=14)
+    plt.ylabel("Resolution (M₀)", fontsize=14)
+    plt.title("Pusher Voltage vs Resolution", fontsize=16)
+    plt.grid(True)
+    
+    plot_filename = f"TOF_ritam/figures/resolution/pusher_voltage_vs_resolution_{exp_no}.png"
+    plt.savefig(plot_filename, dpi=300)
+    plt.close()
+
+    # Append final plot to markdown log
+    final_text = textwrap.dedent(f"""
+    The resolution vs pusher voltage plot for this setup is:
+
+    <img src="figures/resolution/pusher_voltage_vs_resolution_{exp_no}.png" width=800>
+    """)
+
+    with open("TOF_ritam/Resolution_logbook_4.md", "a", encoding='utf-8') as logbook:
+        logbook.write(final_text)
