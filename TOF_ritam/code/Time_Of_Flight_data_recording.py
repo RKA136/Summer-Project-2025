@@ -114,11 +114,11 @@ def plot_resolution(sl_no, x_min, x_max, bins, exp_no):
     M_data = []
     
     for i in sl_no:
-        data = f"TOF_{exp_no * 100 + i}"
+        data = f"TOF_{exp_no * 10000 + i}"
         mu, sigma, M = histogram_parameters_plot(data, bins, x_min, x_max)
         M_data.append([i, M])
-        
-        voltage = int(data[-2:])  # Last two digits as voltage (e.g., "40" from TOF_440)
+
+        voltage = int(data[-4:])  # Last four digits as voltage (e.g., "0040" from TOF_40040)
 
         text_to_append = textwrap.dedent(f"""
         ### {data}.txt
@@ -136,7 +136,7 @@ def plot_resolution(sl_no, x_min, x_max, bins, exp_no):
         ---
         """)
 
-        with open("TOF_ritam/Resolution_logbook_4.md", "a", encoding='utf-8') as logbook:
+        with open(f"TOF_ritam/Resolution_logbook_{exp_no}.md", "a", encoding='utf-8') as logbook:
             logbook.write(text_to_append)
 
     # Plot: Resolution vs Pusher Voltage
@@ -161,5 +161,5 @@ def plot_resolution(sl_no, x_min, x_max, bins, exp_no):
     <img src="figures/resolution/pusher_voltage_vs_resolution_{exp_no}.png" width=800>
     """)
 
-    with open("TOF_ritam/Resolution_logbook_4.md", "a", encoding='utf-8') as logbook:
+    with open(f"TOF_ritam/Resolution_logbook_{exp_no}.md", "a", encoding='utf-8') as logbook:
         logbook.write(final_text)
